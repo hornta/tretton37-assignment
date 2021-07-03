@@ -1,0 +1,21 @@
+form[role="search"] select {
+	margin-bottom: 1em;
+}
+
+.social-profiles-field {
+	margin-bottom: 1em;
+}
+
+.social-profiles-field label {
+	/* keeps checkbox and label on the same line */
+	white-space: nowrap;
+	margin-right: 1em;
+}
+
+.search-field {
+	margin-bottom: 1em;
+}
+
+.search-field label {
+	display: block;
+}

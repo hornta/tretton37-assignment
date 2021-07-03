@@ -1,0 +1,11 @@
+.employee-item img {
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+	display: block;
+	margin-bottom: 0.7em;
+}
+
+.employee-item .employee-name {
+	font-weight: 500;
+}
