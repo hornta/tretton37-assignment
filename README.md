@@ -25,7 +25,7 @@ serve -s build
 
 Install [serve](https://www.npmjs.com/package/serve) with `npm i -g serve`
 
-## Environment variables
+## environment variables
 
 ### REACT_APP_API_PATH
 
@@ -52,3 +52,9 @@ A string value representing a floating number between 0 and 1 meaning. A value o
 - Filter by name and office
 - Filter by contact links (such as Twitter or GitHub)
 - Available on a free public url (such as Azure, Heroku)
+
+## possible improvements
+
+implement a virtual list of items to increase performance when updating the employee list
+implement pagination client side, or better implement it in the api including filter and sorting to future proof
+ensure sure each avatar image is of the same size in the backend
