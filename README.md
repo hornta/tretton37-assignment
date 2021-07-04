@@ -55,6 +55,9 @@ A string value representing a floating number between 0 and 1 meaning. A value o
 
 ## possible improvements
 
-implement a virtual list of items to increase performance when updating the employee list
-implement pagination client side, or better implement it in the api including filter and sorting to future proof
-ensure sure each avatar image is of the same size in the backend
+- implement a virtual list of items to increase performance when updating the employee list
+- implement pagination client side, or better implement it in the api including filter and sorting to future proof
+- ensure sure each avatar image is of the same size in the backend
+- provide integrations testing with testing-library and e2e tests with cypress.
+- add a CI step in GitHub actions
+- use ui components to ensure same visuals in every browser instead of relying on the native styling
