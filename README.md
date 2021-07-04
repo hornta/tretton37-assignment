@@ -25,6 +25,21 @@ serve -s build
 
 Install [serve](https://www.npmjs.com/package/serve) with `npm i -g serve`
 
+## Environment variables
+
+### REACT_APP_API_PATH
+
+Base API Path without a trailing slash
+
+### REACT_APP_API_KEY
+
+API Key which is sent along a request to the API
+
+### REACT_APP_API_FLAKINESS
+
+To control the flakiness of the API. Good for testing special error cases.
+A string value representing a floating number between 0 and 1 meaning. A value of 0.3 means the API will reject 30% of the time.
+
 ## features
 
 ### design/accessibility

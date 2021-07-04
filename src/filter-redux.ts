@@ -1,7 +1,6 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 import { SocialProfile } from "./employees-redux";
 import { defaultLocationIdentifier } from "./selector-fns";
-import { getQueryParameter } from "./utils";
 
 export type FilterSocialProfiles = SocialProfile[];
 
@@ -22,22 +21,23 @@ const getInitialSocialProfiles = () => {
 	const socialProfileValues = Object.values<string>(SocialProfile);
 
 	const searchParameters = new URLSearchParams(window.location.search);
-	const persisted = searchParameters.entries();
-	for (const [key, value] of persisted) {
-		if (key !== EmployeeFilterQueryParameter.SocialProfiles) {
+	for (const entry of searchParameters.entries()) {
+		if (entry[0] !== EmployeeFilterQueryParameter.SocialProfiles) {
 			continue;
 		}
-		if (socialProfileValues.includes(value)) {
-			retVal.push(value as SocialProfile);
+		if (socialProfileValues.includes(entry[1])) {
+			retVal.push(entry[1] as SocialProfile);
 		}
 	}
 	return retVal;
 };
 
+const queryParameters = new URLSearchParams(window.location.search);
+
 const initialState = {
-	searchTerm: getQueryParameter(EmployeeFilterQueryParameter.Query) ?? "",
+	searchTerm: queryParameters.get(EmployeeFilterQueryParameter.Query) ?? "",
 	location:
-		getQueryParameter(EmployeeFilterQueryParameter.Location) ??
+		queryParameters.get(EmployeeFilterQueryParameter.Location) ??
 		defaultLocationIdentifier,
 	socialProfiles: getInitialSocialProfiles(),
 } as FilterState;

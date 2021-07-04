@@ -4,7 +4,7 @@ import {
 	createReducer,
 	nanoid,
 } from "@reduxjs/toolkit";
-import { appFetch } from "./app-utils";
+import { appFetch } from "./utils";
 import { RootState } from "./store";
 
 export enum SocialProfile {
@@ -13,7 +13,14 @@ export enum SocialProfile {
 	Twitter = "twitter",
 }
 
-interface EmployeeIdentification {
+export enum EmployeeLoadingState {
+	IDLE,
+	PENDING,
+	REJECTED,
+	FULFILLED,
+}
+
+interface Identifiable {
 	id: string;
 }
 
@@ -35,7 +42,7 @@ interface Employee {
 	published: boolean;
 }
 
-export type IdentifiableEmployee = Employee & EmployeeIdentification;
+export type IdentifiableEmployee = Employee & Identifiable;
 
 export const loadEmployees = createAsyncThunk(
 	"employees/loadEmployees",
@@ -60,10 +67,20 @@ export const employeesSelectors = employeesAdapter.getSelectors(
 );
 
 export const employeesReducer = createReducer(
-	employeesAdapter.getInitialState(),
+	employeesAdapter.getInitialState({
+		loading: EmployeeLoadingState.IDLE,
+	}),
 	(builder) => {
-		builder.addCase(loadEmployees.fulfilled, (state, action) => {
-			employeesAdapter.setAll(state, action.payload);
-		});
+		builder
+			.addCase(loadEmployees.pending, (state, action) => {
+				state.loading = EmployeeLoadingState.PENDING;
+			})
+			.addCase(loadEmployees.rejected, (state, action) => {
+				state.loading = EmployeeLoadingState.REJECTED;
+			})
+			.addCase(loadEmployees.fulfilled, (state, action) => {
+				state.loading = EmployeeLoadingState.FULFILLED;
+				employeesAdapter.setAll(state, action.payload);
+			});
 	}
 );

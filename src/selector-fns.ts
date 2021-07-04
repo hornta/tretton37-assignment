@@ -66,6 +66,9 @@ export const selectEmployeeList = createSelector(
 	}
 );
 
+export const selectEmployeeListLoading = (state: RootState) =>
+	state.employees.loading;
+
 export const selectEmployee = (state: RootState, id: string) =>
 	employeesSelectors.selectById(state, id);
 

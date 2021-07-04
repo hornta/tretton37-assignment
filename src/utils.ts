@@ -1,36 +1,26 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+export const appFetch = async <T extends unknown>(
+	path: string,
+	config?: RequestInit
+): Promise<T> => {
+	const request = new Request(process.env.REACT_APP_API_PATH + path, {
+		...config,
+		headers: {
+			...config?.headers,
+			Authorization: process.env.REACT_APP_API_KEY,
+		},
+	});
+	const response = await fetch(request);
 
-export const useQueryParameter = (name: string) => {
-	if (name === "") {
-		throw new TypeError("empty string passed to useQueryParameter");
+	if (!response.ok) {
+		throw new Error(response.statusText);
 	}
-	const location = useLocation();
-	const searchParameters = new URLSearchParams(location.search);
-	const [queryParameter, setQueryParameter] = useState(
-		searchParameters.get(name)
-	);
-	useEffect(() => {
-		const searchParameters = new URLSearchParams(location.search);
-		const value = searchParameters.get(name);
-		setQueryParameter((current) => {
-			if (current !== value) {
-				return value;
-			}
 
-			return current;
-		});
-	}, [location.search, name]);
-	return queryParameter;
-};
+	if (process.env.NODE_ENV === "development") {
+		const flakiness = Number(process.env.REACT_APP_API_FLAKINESS);
+		if (!Number.isNaN(flakiness) && Math.random() < flakiness) {
+			throw new Error("Request rejected");
+		}
+	}
 
-export const useDocumentTitle = (title: string) => {
-	useEffect(() => {
-		document.title = title;
-	}, [title]);
-};
-
-export const getQueryParameter = (key: string) => {
-	const searchParameters = new URLSearchParams(window.location.search);
-	return searchParameters.get(key);
+	return response.json().catch(() => ({}));
 };

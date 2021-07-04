@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { loadEmployees } from "../../employees-redux";
 import { FilterSocialProfiles, updateFilter } from "../../filter-redux";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useDocumentTitle } from "../../hooks";
 import { EmployeeList } from "../employee-list/employee-list";
 import { EmployeeSearchForm } from "../employee-search-form/employee-search-form";
 import "./meet-tretton37.css";
@@ -26,10 +26,13 @@ export const MeetTretton37 = () => {
 		dispatch(updateFilter({ searchTerm: query, location, socialProfiles }));
 	};
 
+	const title = "The fellowship of the tretton37";
+	useDocumentTitle(title);
+
 	return (
 		<div className="meet-tretton37">
 			<header>
-				<h1>The fellowship of the tretton37</h1>
+				<h1>{title}</h1>
 			</header>
 			<main>
 				<EmployeeSearchForm onSearch={handleSearch} className="search-form" />

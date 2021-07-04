@@ -2,6 +2,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./store";
 import { useHistory, useLocation } from "react-router-dom";
 import { useCallback } from "react";
+import { useEffect, useState } from "react";
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 
@@ -40,4 +41,33 @@ export const usePersistToUrl = () => {
 		},
 		[history, location.search]
 	);
+};
+
+export const useQueryParameter = (name: string) => {
+	if (name === "") {
+		throw new TypeError("empty string passed to useQueryParameter");
+	}
+	const location = useLocation();
+	const searchParameters = new URLSearchParams(location.search);
+	const [queryParameter, setQueryParameter] = useState(
+		searchParameters.get(name)
+	);
+	useEffect(() => {
+		const searchParameters = new URLSearchParams(location.search);
+		const value = searchParameters.get(name);
+		setQueryParameter((current) => {
+			if (current !== value) {
+				return value;
+			}
+
+			return current;
+		});
+	}, [location.search, name]);
+	return queryParameter;
+};
+
+export const useDocumentTitle = (title: string) => {
+	useEffect(() => {
+		document.title = title;
+	}, [title]);
 };

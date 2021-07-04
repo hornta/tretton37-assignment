@@ -5,6 +5,7 @@ declare global {
 		interface ProcessEnv {
 			REACT_APP_API_KEY: string;
 			REACT_APP_API_PATH: string;
+			REACT_APP_API_FLAKINESS: string;
 		}
 	}
 }
